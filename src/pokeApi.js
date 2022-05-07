@@ -12,6 +12,5 @@ export function getAllPokemon() {
         })
         .catch(e => {
             console.error(e);
-            return [];
         });
 }

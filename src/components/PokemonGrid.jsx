@@ -6,7 +6,7 @@ export default function PokemonGrid() {
 
     return (
         <React.Fragment>
-            {pokemon.map(x => (<div>{x.name}</div>))}
+            {pokemon.map(x => (<div key={x.name}>{x.name}</div>))}
         </React.Fragment>
     );
 }
