@@ -14,3 +14,14 @@ export function getAllPokemon() {
             console.error(e);
         });
 }
+
+/** Initiates a get request to the PokeAPI to get a specific pokemon by name */
+export function getPokemon(name) {
+    return pokeApi.get(`pokemon/${name}`)
+        .then(response => {
+            return response.data;
+        })
+        .catch(e => {
+            console.error(e);
+        });
+}
