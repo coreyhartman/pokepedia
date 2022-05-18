@@ -4,20 +4,26 @@ import { getAllPokemon, getPokemon } from '../pokeApi';
 const AppContext = React.createContext();
 
 export function AppProvider({ children }) {
-    const [pokemon, setPokemon] = useState([]);
+    const [pokemons, setPokemons] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        getAllPokemon().then(x => setPokemon(x));
+        let data = [];
+
+        getAllPokemon()
+            .then(x => {
+                x.map(y => {
+                    getPokemon(y.name)
+                        .then(z => data.push(z))
+                });
+            })
+            .finally(() => {
+                setPokemons(data);
+                setIsLoading(false);
+            });
     }, []);
 
-    function getPokemonCardInfo(name) {
-        return getPokemon(name)
-            .then(x => {
-                return { id: x.id, name: x.name, img: x.sprites.front_default };
-            });
-    }
-
-    return <AppContext.Provider value={{ pokemon, getPokemonCardInfo }}>{children}</AppContext.Provider>;
+    return <AppContext.Provider value={{ pokemons, isLoading }}>{children}</AppContext.Provider>;
 }
 
 export default AppContext;
